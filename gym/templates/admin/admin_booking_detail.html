@@ -1,0 +1,224 @@
+{% extends 'admin_base.html' %}
+{% load static custom_tags %}
+{% block main %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  #active {
+    border-radius: 50%;
+  }
+
+  #inactive {
+    border-radius: 50%;
+  }
+  #active:hover {
+    cursor: default !important;
+  }
+  #inactive:hover {
+    cursor: default !important;
+  }
+  img {
+    width: 60px;
+    height: 60px;
+  }
+  .table-responsive{
+    font-size:11px;
+  }
+  .material-symbols-outlined
+  {
+    font-size:14px;
+  }
+    td{
+    padding:0px;
+    }
+    .password{
+        display:none;
+    }
+    .text{
+      display:block;
+    }
+    .green-row{
+      color:white;
+      background-color:green!important;
+    }
+    .red-row{
+      color:white;
+      background-color:red!important;
+    }
+    .head-row{
+      color:white;
+      background-color:#165d5d!important;
+    }
+</style>
+<div class="pcoded-inner-content">
+    <!-- Main-body start -->
+    <div class="main-body">
+        <div class="page-wrapper">
+
+            <!-- Page body start -->
+            <div class="page-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Basic Form Inputs card start -->
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="sub-title">Booking Detail</h4>
+                                <div class="card-body">
+                                <div class="container">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <tr>
+                                            <th style="color:blue">Booking Date:</th>
+                                            <td>{{data.creationdate}}</td>
+                                            <th style="color:blue">Name:</th>
+                                            <td>{{data.register.user.first_name}}{{data.register.user.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:blue">Email:</th>
+                                            <td>
+                                                <span id="email-{{forloop.counter}}" class="password">{{data.register.user.username}}</span>
+                                                <button type="button" class="btn btn-success" id="email-btn-{{forloop.counter}}" onclick="togglePassword('email-{{forloop.counter}}', this.id)"><i class="fa fa-eye"></i></button>
+                                            </td>
+                                            <th style="color:blue">Category:</th>
+                                            <td>{{data.package.category.categoryname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:blue">Package Name:</th>
+                                            <td>{{data.package.packagename}}</td>
+                                            <th style="color:blue">Title:</th>
+                                            <td>{{data.package.titlename}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:blue">Package Duration:</th>
+                                            <td>{{data.package.packageduration}}</td>
+                                            <th style="color:blue">Price:</th>
+                                            <td>{{data.package.price}} Rs.</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:blue">Description:</th>
+                                            <td colspan="12">{{data.package.description|safe}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:blue">Payment Type:</th>
+                                             <td colspan="12">{{data.get_status_display}}</td>
+                                        </tr>
+                                    </table>
+                                    {% if data.status == 1 %}
+                                    <!-- Button trigger modal -->
+                                    <center>
+                                        <div class="accordion-heading" role="tab" id="headingOne">
+                                                <h3 class="card-title accordion-title"><a class="accordion-msg waves-effect waves-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Take Action</a>
+                                                </h3>
+                                        </div>
+                                    </center>
+                                    {% endif %}
+                                    {% if data.status == 2 %}
+                                    <!-- Button trigger modal -->
+                                    <center>
+                                        <div class="accordion-heading" role="tab" id="headingOne">
+                                                <h3 class="card-title accordion-title"><a class="accordion-msg waves-effect waves-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Take Action</a>
+                                                </h3>
+                                        </div>
+                                    </center>
+                                    {% endif %}
+                                    <hr>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="accordion-content accordion-desc">
+                                            <form action="" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>Payment Type:</label>
+                                                    <select name="status" class="form-control" required>
+                                                        <option value="">--Select--</option>
+                                                        <option value="2">Partial Payment</option>
+                                                        <option value="3">Full Payment</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Price:</label>
+                                                    <input class="form-control" name="price">
+                                                </div>
+                                                <div align="center">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% if data.status != "New" %}
+                                    <table id="example6" class="table table-bordered table-striped">
+                                        <div class="card-body">
+                                            <tr>
+                                                <center>
+                                                    <h4 style="color:blue">Payment History</h4>
+                                                </center>
+                                            </tr>
+
+                                            <table id="example5" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Payment Type:</th>
+                                                    <th>Amount Paid:</th>
+                                                    <th>Payment Date:</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for i in payment %}
+                                                <tr>
+                                                    <td>{{i.get_status_display}}</td>
+                                                    <td>{{i.price}}</td>
+                                                    <td>{{i.creationdate}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </table>
+                                    {% endif %}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main-body end -->
+        </div>
+    </div>
+</div>
+
+{% if error == "no" %}
+<script>
+alert('Package Type has been Updated');
+window.location=('{% url 'managePackageType' %}');
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+alert('Something Went Wrong.Try again.');
+</script>
+{% endif %}
+ <script>
+    function togglePassword(element_id, btnId){
+      var elementData = document.getElementById(element_id);
+      var elementBtn = document.getElementById(btnId);
+      console.log(elementData.classList.contains("password"))
+      if(elementData.classList.contains("password")){
+        elementData.classList.remove("password");
+        elementData.classList.add("text");
+        elementBtn.children[0].classList.add("fa-eye-slash");
+        elementBtn.children[0].classList.remove("fa-eye");
+      }
+      else{
+        elementData.classList.remove("text");
+        elementData.classList.add("password");
+        elementBtn.children[0].classList.remove("fa-eye-slash");
+        elementBtn.children[0].classList.add("fa-eye");
+      }
+    }
+  </script>
+{% endblock %}

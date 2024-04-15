@@ -1,0 +1,245 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -37px;
+  position: relative;
+  background:gray;
+  color:yellow;
+  z-index: 2;
+  padding:10px;
+}
+
+.field-icon:hover {
+  cursor:pointer;
+}
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <title>Gym Management System</title>
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-training-studio.css' %}">
+
+</head>
+
+<body>
+
+<!-- ***** Preloader Start ***** -->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+
+<!-- Topbar Start -->
+<div class="container-fluid py-3 px-lg-5 d-none d-lg-block">
+    <div class="row">
+        {% if request.user.is_authenticated %}
+        <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-body pr-3" href="/user_profile/"><i style="color:red" class="fa fa-user mr-2"></i>My Profile</a>
+                <a class="text-body px-3" href="/user_change_password/"><i style="color:red" class="fa fa-unlock-alt mr-2"></i>Change Password</a>
+                <a class="text-body px-3" href="/user_logout/"><i style="color:red" class="fa fa-envelope mr-2"></i>Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-12 text-center text-lg-right">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-body px-3"  href="/user_login/">
+                    <i style="color:red" class="fa fa-user mr-2"></i>User Login</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<!-- Topbar End -->
+<!-- Navbar Start -->
+<div class="container-fluid position-relative nav-bar p-0">
+    <div class="position-relative px-lg-5" style="z-index: 9;">
+        <nav class="navbar navbar-expand-lg bg-secondary navbar-dark py-3 py-lg-3 pl-3 pl-lg-5">
+            <a href="" >
+                <h2 class="text-uppercase text-warning mb-1">Gym <span class="text-white">Management System</span>
+                </h2>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                <div class="navbar-nav ml-auto py-0">
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="#features" class="nav-item nav-link">About</a>
+                    <a href="#our-classes" class="nav-item nav-link">Classes</a>
+                    <a href="#schedule" class="nav-item nav-link ">Schedules</a>
+                    <a href="#contact-us" class="nav-item nav-link">Contact</a>
+                    {% if request.user.is_authenticated %}
+                    <a href="/booking_history/" class="nav-item nav-link">Booking History</a>
+                    {% else %}
+                    <a href="#admin"><button style="color:red" class="nav-item nav-link">Admin</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+<!-- ***** Admin Area Starts ***** -->
+<section class="section" id="admin">
+    <h3 class="text-center text-danger">User Profile</h3>
+    <hr/>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <div id="map">
+                    <img src="{% static 'assets/images/adminlogin.jpg' %}" style="width: 100%; height: 685px;">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <div class="admin-form">
+                    <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset>
+                                    <input type="text" name="firstname" placeholder="First Name" required value="{{data.user.first_name}}">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset>
+                                    <input type="text" name="secondname" placeholder="Last Name" required value="{{data.user.last_name}}">
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset>
+                                    <input type="password" name="email" id="email" placeholder="Enter Email" value="{{data.user.username}}" readonly>
+                                    <span class="fa fa-eye field-icon toggle-password-2" id="email-eye" onclick="togglePassword2()"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset>
+                                    <input type="password" name="mobile" id="mobile" placeholder="Mobile Number" value="{{data.mobile}}" readonly>
+                                    <span class="fa fa-eye field-icon toggle-password" id="mobile-eye" onclick="togglePassword()"></span>
+                                </fieldset>
+                            </div>
+
+                             <div class="col-md-12 col-sm-12">
+                                <fieldset>
+                                    <input type="text" name="address" placeholder="Address" value="{{data.address}}" required>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <button type="submit" class="main-button" href="">Update</button>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if error == "no" %}
+<script>
+    `alert('Logged In Successfully')`;
+    `window.location=('{% url 'admin_home' %}')`;
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert('Invalid Credentials, Please try again');
+</script>
+{% endif %}
+<!-- ***** Admin Area Ends ***** -->
+
+
+
+
+<!-- ***** Footer Start ***** -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script>
+                    Gym Management System
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+
+<!-- Bootstrap -->
+<script src="{% static 'assets/js/popper.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Plugins -->
+<script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+<script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'assets/js/imgfix.min.js' %}"></script>
+<script src="{% static 'assets/js/mixitup.js' %}"></script>
+<script src="{% static 'assets/js/accordions.js' %}"></script>
+
+<!-- Global Init -->
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<script>
+function togglePassword() {
+  var mobileInput = document.getElementById("mobile");
+  var eyeIcon = document.getElementById("mobile-eye");
+  if (mobileInput.type == "password") {
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+    mobileInput.type = "text";
+  } else {
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+    mobileInput.type = "password";
+  }
+}
+
+
+function togglePassword2() {
+  var emailInput = document.getElementById("email")
+  var eyeIcon = document.getElementById("email-eye");
+  if (emailInput.type == "password") {
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+    emailInput.type = "text";
+  } else {
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+    emailInput.type = "password";
+  }
+}
+
+</script>
+</body>
+</html>

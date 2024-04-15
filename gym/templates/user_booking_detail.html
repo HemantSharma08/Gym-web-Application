@@ -1,0 +1,275 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  #active {
+    border-radius: 50%;
+  }
+
+  #inactive {
+    border-radius: 50%;
+  }
+  #active:hover {
+    cursor: default !important;
+  }
+  #inactive:hover {
+    cursor: default !important;
+  }
+  img {
+    width: 60px;
+    height: 60px;
+  }
+  .table-responsive{
+    font-size:11px;
+  }
+  .material-symbols-outlined
+  {
+    font-size:14px;
+  }
+    td{
+    padding:0px;
+    }
+    .password{
+        display:none;
+    }
+    .text{
+      display:block;
+    }
+    .green-row{
+      color:white;
+      background-color:green!important;
+    }
+    .red-row{
+      color:white;
+      background-color:red!important;
+    }
+    .head-row{
+      color:white;
+      background-color:#165d5d!important;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <title>Gym Management System</title>
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-training-studio.css' %}">
+
+</head>
+
+<!-- ***** Preloader Start ***** -->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+
+<!-- Topbar Start -->
+<div class="container-fluid py-3 px-lg-5 d-none d-lg-block">
+    <div class="row">
+        {% if request.user.is_authenticated %}
+        <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-body pr-3" href="/user_profile/"><i style="color:red" class="fa fa-user mr-2"></i>My Profile</a>
+                <a class="text-body px-3" href="/user_change_password/"><i style="color:red" class="fa fa-unlock-alt mr-2"></i>Change Password</a>
+                <a class="text-body px-3" href="/user_logout/"><i style="color:red" class="fa fa-envelope mr-2"></i>Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-12 text-center text-lg-right">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-body px-3"  href="/user_login/">
+                    <i style="color:red" class="fa fa-user mr-2"></i>User Login</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<!-- Topbar End -->
+<!-- Navbar Start -->
+<div class="container-fluid position-relative nav-bar p-0">
+    <div class="position-relative px-lg-5" style="z-index: 9;">
+        <nav class="navbar navbar-expand-lg bg-secondary navbar-dark py-3 py-lg-3 pl-3 pl-lg-5">
+            <a href="" >
+                <h2 class="text-uppercase text-warning mb-1">Gym <span class="text-white">Management System</span>
+                </h2>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                <div class="navbar-nav ml-auto py-0">
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="#features" class="nav-item nav-link">About</a>
+                    <a href="#our-classes" class="nav-item nav-link">Classes</a>
+                    <a href="#schedule" class="nav-item nav-link ">Schedules</a>
+                    <a href="#contact-us" class="nav-item nav-link">Contact</a>
+                    {% if request.user.is_authenticated %}
+                    <a href="/booking_history/" class="nav-item nav-link">Booking History</a>
+                    {% else %}
+                    <a href="#admin"><button style="color:red" class="nav-item nav-link">Admin</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+<body>
+<section class="section" id="schedule">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading dark-bg">
+                    <h2>Booking <em>History</em></h2>
+                </div>
+            </div>
+        </div>
+        <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example" class="table table-bordered table-striped">
+                                <tr>
+                                    <th style="color:purple">Booking Date:</th>
+                                    <td style="color:blue">{{data.package.creationdate}}</td>
+                                    <th style="color:purple">Name:</th>
+                                    <td style="color:blue">{{data.register.user.first_name}} {{data.register.user.last_name}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:purple">Email:</th>
+                                    <td>
+                                        <span id="email-{{forloop.counter}}" style="color:blue" class="password">{{data.register.user.username}}</span>
+                                        <button type="button" class="btn btn-success" id="email-btn-{{forloop.counter}}" onclick="togglePassword('email-{{forloop.counter}}', this.id)"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                    <th style="color:purple">Category:</th>
+                                    <td style="color:blue">{{data.package.category.categoryname}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:purple">Package Name:</th>
+                                    <td style="color:blue">{{data.package.packagename}}</td>
+                                    <th style="color:purple">Title:</th>
+                                    <td style="color:blue">{{data.package.titlename}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:purple">Package Duration:</th>
+                                    <td style="color:blue">{{data.package.packageduration}}</td>
+                                    <th style="color:purple">Price:</th>
+                                    <td style="color:blue">{{data.package.price}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:blue">Description:</th>
+                                    <td colspan="10" style="color:purple">{{data.package.description|safe}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:blue">Payment Type:</th>
+                                    <td colspan="10" style="color:purple">{{data.get_status_display}}</td>
+                                </tr>
+                            </table>
+                            <table id="example6" class="table table-bordered table-striped">
+                                        <div class="card-body">
+                                            <tr>
+                                                <center>
+                                                    <h4 style="color:blue">Payment History</h4>
+                                                </center>
+                                            </tr>
+
+                                            <table id="example5" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Payment Type:</th>
+                                                    <th>Amount Paid:</th>
+                                                    <th>Payment Date:</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for i in payment %}
+                                                <tr>
+                                                    <td style="color:blue">{{i.get_status_display}}</td>
+                                                    <td style="color:blue">{{i.price}}</td>
+                                                    <td style="color:blue">{{i.creationdate}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+    </div>
+</section>
+<!-- ***** Footer Start ***** -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script>
+                    Gym Management System
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+
+<!-- Bootstrap -->
+<script src="{% static 'assets/js/popper.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Plugins -->
+<script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+<script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'assets/js/imgfix.min.js' %}"></script>
+<script src="{% static 'assets/js/mixitup.js' %}"></script>
+<script src="{% static 'assets/js/accordions.js' %}"></script>
+
+<!-- Global Init -->
+<script src="{% static 'assets/js/custom.js' %}"></script>
+ <script>
+    function togglePassword(element_id, btnId){
+      var elementData = document.getElementById(element_id);
+      var elementBtn = document.getElementById(btnId);
+      console.log(elementData.classList.contains("password"))
+      if(elementData.classList.contains("password")){
+        elementData.classList.remove("password");
+        elementData.classList.add("text");
+        elementBtn.children[0].classList.add("fa-eye-slash");
+        elementBtn.children[0].classList.remove("fa-eye");
+      }
+      else{
+        elementData.classList.remove("text");
+        elementData.classList.add("password");
+        elementBtn.children[0].classList.remove("fa-eye-slash");
+        elementBtn.children[0].classList.add("fa-eye");
+      }
+    }
+  </script>
+</body>
+</html>
