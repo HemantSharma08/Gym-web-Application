@@ -6,7 +6,5 @@ them with a seamless experience. Trainers can manage their schedules, view class
 The system also includes an admin dashboard for comprehensive analytics and reporting, enabling gym owners to make informed decisions about their business operations.
 With its user-friendly interface and powerful features, the Gym Management System simplifies gym management tasks, enhances member satisfaction, and improves overall efficiency.
 
-<br>
-<br>
 ![gymmanagement](https://github.com/HemantSharma08/Gym-web-Application/assets/152791457/1169bf76-837c-424d-8387-24cbe7fcbd28)
 
