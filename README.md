@@ -1,4 +1,4 @@
-<a href="https://hemantsharma08.pythonanywhere.com/"><h1>Gym Management System <---Click To Live</h1></a>
+<h1><a href="https://hemantsharma08.pythonanywhere.com/">Gym Management System <---Click To Live</a></h1>
 The Gym Management System is a web application built using Django, designed to streamline the management processes of a fitness center. 
 With this system, gym owners and administrators can efficiently manage memberships, trainers, classes, schedules, payments, and more, 
 all from a centralized platform. Members can easily access their class schedules, track their attendance, and make payments online, providing 
