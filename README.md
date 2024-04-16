@@ -8,4 +8,4 @@ With its user-friendly interface and powerful features, the Gym Management Syste
 
 <br>
 <br>
-![gymmanagement](https://github.com/HemantSharma08/Gym-web-Application/assets/152791457/1b90fde0-fde5-4d6a-90ca-3808baf324de)
+![gymmanagement](https://github.com/HemantSharma08/Gym-web-Application/assets/152791457/1b90fde0-fde5-4d6a-90ca-3808baf324de))
