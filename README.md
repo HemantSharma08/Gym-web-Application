@@ -6,4 +6,4 @@ them with a seamless experience. Trainers can manage their schedules, view class
 The system also includes an admin dashboard for comprehensive analytics and reporting, enabling gym owners to make informed decisions about their business operations.
 With its user-friendly interface and powerful features, the Gym Management System simplifies gym management tasks, enhances member satisfaction, and improves overall efficiency.
 
-![Example Image](C:\Users\hs811\OneDrive\Pictures\Screenshots\gymmanagement.jpg)
+![Example Image](C:/Users/hs811/OneDrive/Pictures/Screenshots/gymmanagement.jpg)
